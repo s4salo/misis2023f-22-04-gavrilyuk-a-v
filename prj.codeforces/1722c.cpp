@@ -11,8 +11,8 @@ int main() {
         int n;
         std::cin >> n;
 
-        std::unordered_map<std::string, int> words_count; // карта для подсчета вхождений слов
-        std::vector<std::vector<std::string>> words(3, std::vector<std::string>(n));  // список слов каждого игрока
+        std::unordered_map<std::string, int> words_count; 
+        std::vector<std::vector<std::string>> words(3, std::vector<std::string>(n));  
 
         for (int player = 0; player < 3; ++player) {
             for (int j = 0; j < n; ++j) {
