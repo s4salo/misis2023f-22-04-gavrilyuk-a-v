@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+CMakePresets.json
+/out/build/x64-Debug
+/.vs
