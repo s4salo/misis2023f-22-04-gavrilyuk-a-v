@@ -74,7 +74,7 @@ int main() {
     std::vector<cv::Mat> masks;
     std::vector<std::string> filenames;
     
-    filenames = listFiles("./images");
+    filenames = listFiles("C:/Users/gav-y/source/repos/ConsoleApplication1/ConsoleApplication1/images");
     images = loadImages(filenames);
     masks = createMasks(filenames, images);
 
