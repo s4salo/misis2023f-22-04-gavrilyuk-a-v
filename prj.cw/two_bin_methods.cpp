@@ -151,10 +151,10 @@ int main() {
     config.filter = Settings::Filter::BILITERAL;
     config.thresholdMethod = Settings::ThresholdMethod::MEAN_STD_DEV;
     config.threshold = 110;
-    config.filterIterations = 1;
+    config.filterIterations = 3;
     config.ksize = 3;
 
-    filenames = listFiles("./images");
+    filenames = listFiles("C:/Users/gav-y/source/repos/ConsoleApplication1/ConsoleApplication1/images");
     images = loadImages(filenames);
     masks = createMasks(filenames, images, config);
 
@@ -167,8 +167,8 @@ int main() {
         std::cout << "SMTH went wrong";
     }
 
-    cv::imshow("Image", images[1]);
-    cv::imshow("Mask", masks[1]);
+    cv::imshow("Image", images[6]);
+    cv::imshow("Mask", masks[6]);
     cv::waitKey(0);
 
     for (auto& image : images) {
