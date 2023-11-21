@@ -195,7 +195,6 @@ cv::Mat thresholdKapur(const cv::Mat& src) {
     // Calculate the cumulative distribution function (CDF)
     std::vector<float> cdf = cumulativeSum(hist);
 
-    // Calculate the entropy for each threshold and find the maximum
     double maxEntropy = -1;
     int bestThreshold = 0;
     for (int t = 0; t < histSize; t++) {
@@ -264,7 +263,7 @@ std::vector<cv::Mat> createMasks(const std::vector<std::string>& filenames, std:
         cv::Mat gray;
         cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
 
-        // filter choise
+        // filter choice
         if (settings.filter == Settings::Filter::NLM) {
             gray = denoiseImageNLM(gray, settings.filterIterations, settings.filterhParam, settings.ksize);
         }
@@ -309,7 +308,7 @@ int main() {
 
     Settings config = readConfig();
 
-    config.thresholdMethod = Settings::OTSU;
+    config.thresholdMethod = Settings::KAPUR;
     config.filter = Settings::BILATERAL;
     updateConfig(config);
 
