@@ -1,4 +1,3 @@
-#include <iostream>
 #include <ImageProcessor/ImageProcessor.hpp>
 
 
@@ -14,15 +13,18 @@ int main() {
     }
 
     ImageProcessor::Settings config = obj.readConfig();
-    config.thresholdMethod = ImageProcessor::Settings::KAPUR;
+    config.thresholdMethod = ImageProcessor::Settings::BINARY;
     config.filter = ImageProcessor::Settings::BILATERAL;
+    config.filterIterations = 5;
+    config.ksize = 5;
     obj.updateConfig(config);
+    obj.readConfig();
     filenames = obj.listFiles("C:/Users/gav-y/source/repos/ConsoleApplication1/ConsoleApplication1/images");
     images = obj.loadImages(filenames);
-    masks = obj.createMasks(filenames, images, config);
+    masks = obj.createMasks(images, config);
 
-    cv::imshow("Image", images[6]);
-    cv::imshow("Mask", masks[6]);
+    cv::imshow("Image", images[0]);
+    cv::imshow("Mask", masks[0]);
     cv::waitKey(0);
 
     for (auto& image : images) {

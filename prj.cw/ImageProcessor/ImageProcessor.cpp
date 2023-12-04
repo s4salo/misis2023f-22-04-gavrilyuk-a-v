@@ -1,5 +1,5 @@
 #include <ImageProcessor/ImageProcessor.hpp>
-const std::string CONFIG_FILE_PATH = "settings.json";
+std::string CONFIG_FILE_PATH = "settings.json";
 
 std::string ImageProcessor::filterToString(Settings::Filter filter) {
     switch (filter) {
@@ -230,7 +230,7 @@ cv::Mat ImageProcessor::denoiseImageNLM(const cv::Mat& img, int iterations, int 
 
 
 
-std::vector<cv::Mat> ImageProcessor::createMasks(const std::vector<std::string>& filenames, std::vector<cv::Mat>& images, ImageProcessor::Settings settings) {
+std::vector<cv::Mat> ImageProcessor::createMasks(std::vector<cv::Mat>& images, ImageProcessor::Settings settings) {
     std::vector<cv::Mat> masks;
 
     for (auto image : images) {

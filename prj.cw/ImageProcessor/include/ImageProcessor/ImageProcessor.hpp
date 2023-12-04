@@ -40,13 +40,14 @@ public:
     static Settings readConfig();
     static void updateConfig(const Settings& newSettings);
     static std::vector<std::string> listFiles(const std::string& folder);
+    static std::string thresholdMethodToString(Settings::ThresholdMethod method);
     static std::vector<cv::Mat> loadImages(const std::vector<std::string>& filenames);
-    static std::vector<cv::Mat> createMasks(const std::vector<std::string>& filenames, std::vector<cv::Mat>& images, Settings settings);
+    static std::vector<cv::Mat> createMasks(std::vector<cv::Mat>& images, Settings settings);
 
 private:
     static std::string filterToString(Settings::Filter filter);
     static Settings::Filter stringToFilter(const std::string& filter);
-    static std::string thresholdMethodToString(Settings::ThresholdMethod method);
+    
     static Settings::ThresholdMethod stringToThresholdMethod(const std::string& thresholdMethod);
 
     friend void to_json(json& j, const Settings& settings);
