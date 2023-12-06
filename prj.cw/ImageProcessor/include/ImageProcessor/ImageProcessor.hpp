@@ -35,6 +35,8 @@ public:
         ThresholdMethod thresholdMethod = BINARY;
     };
 
+    static void setConfigFilePath(const std::string& path);
+
     static bool configExists();
     static void createDefaultConfig();
     static Settings readConfig();
@@ -45,6 +47,10 @@ public:
     static std::vector<cv::Mat> createMasks(std::vector<cv::Mat>& images, Settings settings);
 
 private:
+    static fs::path CONFIG_FILE_PATH;
+    static fs::path OUTPUT_FOLDER_PATH;
+    static fs::path INPUT_FOLDER_PATH;
+
     static std::string filterToString(Settings::Filter filter);
     static Settings::Filter stringToFilter(const std::string& filter);
     

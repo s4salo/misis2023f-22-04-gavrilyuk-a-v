@@ -6,8 +6,12 @@ set(CMAKE_CXX_STANDARD 20)
  
 find_package(OpenCV REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
-
-add_subdirectory("prj.codeforces")
-add_subdirectory ("prj.cw")
+option(BUILD_ONLY_LIBRARY "Build only ImageProcessor" off)
+if(BUILD_ONLY_LIBRARY)
+	add_subdirectory("prj.cw/ImageProcessor") #собрка только библиотеки
+else()
+	add_subdirectory("prj.codeforces")
+	add_subdirectory ("prj.cw") #сборка вместе с тестовыми приложениями
+endif()
 
 
