@@ -1,8 +1,5 @@
 #include <ImageProcessor/ImageProcessor.hpp>
-//std::string CONFIG_FILE_PATH = "settings.json";
 fs::path ImageProcessor::CONFIG_FILE_PATH = "settings.json";
-fs::path ImageProcessor::OUTPUT_FOLDER_PATH = "output";
-fs::path ImageProcessor::INPUT_FOLDER_PATH;
 
 void ImageProcessor::setConfigFilePath(const std::string& path) {
     CONFIG_FILE_PATH = fs::path(path) / "settings.json";
