@@ -5,13 +5,4 @@ target_include_directories(sabin PUBLIC
   $<INSTALL_INTERFACE:include>
 )
 target_link_libraries(sabin ${OpenCV_LIBS} nlohmann_json::nlohmann_json)
-install(TARGETS sabin
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin
-)
-
-
-
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/prj.cw/testpics/ 
-DESTINATION pics)
+install(TARGETS sabin)

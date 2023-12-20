@@ -266,7 +266,24 @@ std::vector<cv::Mat> ImageProcessor::createMasks(std::vector<cv::Mat>& images, I
             mask = thresholdKapur(gray);
         }
 
-        masks.push_back(mask);
+        cv::Mat colorMask;
+        cv::cvtColor(mask, colorMask, cv::COLOR_GRAY2BGR);
+
+        // Assign purple to the foreground and yellow to the background
+        for (int y = 0; y < colorMask.rows; y++) {
+            for (int x = 0; x < colorMask.cols; x++) {
+                if (colorMask.at<cv::Vec3b>(y, x)[0] == 255) {
+                    // Foreground: Set to yellow
+                    colorMask.at<cv::Vec3b>(y, x) = cv::Vec3b(0, 255, 255);
+                }
+                else {
+                    // Background: Set to blue
+                    colorMask.at<cv::Vec3b>(y, x) = cv::Vec3b(128, 0, 128);
+                }
+            }
+        }
+
+        masks.push_back(colorMask);
     }
     return masks;
 }
