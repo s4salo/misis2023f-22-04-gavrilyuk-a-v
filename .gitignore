@@ -32,5 +32,6 @@
 *.app
 
 CMakePresets.json
-/out/build/x64-Debug
+/out*
 /.vs
+/bin*
