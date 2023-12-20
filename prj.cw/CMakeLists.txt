@@ -1,6 +1,22 @@
 add_subdirectory("ImageProcessor")
-#add_executable(test1 "test1.cpp")
-add_executable(main "main.cpp")
-#target_link_libraries(test1 sabin)
-target_link_libraries(main sabin)
+add_executable(prj_test "prj_test.cpp")
+target_link_libraries(prj_test sabin)
+
+install(TARGETS prj_test DESTINATION bin)
+
+install(DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG}/
+		DESTINATION bin
+		CONFIGURATIONS Debug
+		FILES_MATCHING PATTERN "*.dll*"
+)
+install(DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}/
+		CONFIGURATIONS Release
+		DESTINATION bin
+		FILES_MATCHING PATTERN "*.dll*"
+)
+install(DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO}/
+		DESTINATION bin
+		CONFIGURATIONS RelWithDebInfo
+		FILES_MATCHING PATTERN "*.dll*"
+)
 
