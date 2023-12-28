@@ -36,7 +36,7 @@ con->setSchema("mydatabase");
 stmt->execute("CREATE TABLE IF NOT EXISTS students (id INT, name VARCHAR(50), age INT)");
 delete stmt;
 ```
-_пример взят из [MySQL Connector/C++]_<br/>
+_пример взят из [MySQL Connector/C++]_<br/><br/>
 Метод execute() в MySQL Connector/C++ используется для выполнения простого SQL-запроса, который ничего не возвращает.
 В этом примере мы создаем объект Statement с помощью которого будем выполнять SQL-запросы.
 Далее с помощью метода execute() мы создаем базу данных с именем "mydatabase", если такой еще не существует, и указываем, что собираемся использовать именно эту базу данных с помощью метода setSchema().
