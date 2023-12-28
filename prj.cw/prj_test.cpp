@@ -2,99 +2,51 @@
 #include <iostream>
 
 int main(int argc, char* argv[]) {
+
+    cv::utils::logging::setLogLevel(cv::utils::logging::LogLevel::LOG_LEVEL_SILENT);
+
     if (argc != 2) {
-        std::cerr << "Usage: " << argv[0] << "<output_folder>" << std::endl;
+        std::cerr << "Usage: " << argv[0] << "<config_file_path>" << std::endl;
         return 1;
     }
 
-    cv::utils::logging::setLogLevel(cv::utils::logging::LogLevel::LOG_LEVEL_SILENT);
-    fs::path output_arg = argv[1];
-    std::string outputFolder = output_arg.string();
-    std::string inputFolder = (output_arg.parent_path()/"pics").string();
-
-    //fs::path configPath_args = argv[1];
-    //std::string configPath = configPath_args.string();
-    //std::string outputFolder = (inputFolder_args.parent_path().parent_path() / "output/").string();
-
-    if (!fs::exists(outputFolder)) {
-        fs::create_directory(outputFolder);
-    }
-
-    // Set the config file path
-    ImageProcessor::setConfigFilePath(outputFolder);
+    std::string inputPicsFolder = "../pics";
+    ImageProcessor::setConfigFileDirectory(argv[1]);
 
     if (!ImageProcessor::configExists()) {
-        ImageProcessor::createDefaultConfig();
+        std::cerr << "Error: The configuration file does not exist." << std::endl;
+        return 1;
     }
 
-    auto filenames = ImageProcessor::listFiles(inputFolder);
+    ImageProcessor::Settings settings = ImageProcessor::readConfig();
+
+    auto filenames = ImageProcessor::listFiles(inputPicsFolder);
     auto images = ImageProcessor::loadImages(filenames);
 
-    // List of available presets
-    std::vector<ImageProcessor::Settings> presets = {
-        // Preset 1 - MEAN_STD_DEV threshold with NLM denoising
-        {
-            .threshold = 128,
-            .filterIterations = 2,
-            .filterhParam = 10,
-            .ksize = 5,
-            .BDC = 0,
-            .filter = ImageProcessor::Settings::NLM,
-            .thresholdMethod = ImageProcessor::Settings::MEAN_STD_DEV
-        },
-        // Preset 2 - KAPUR threshold with Bilateral denoising
-        {
-            .threshold = 0,
-            .filterIterations = 2,
-            .filterhParam = 10,
-            .ksize = 5,
-            .BDC = 0,
-            .filter = ImageProcessor::Settings::BILATERAL,
-            .thresholdMethod = ImageProcessor::Settings::KAPUR
-        },
-        
-        //Preset 3 - BINARY threshold whith Bilateral denoising
-        {
-            .threshold = 128,
-            .filterIterations = 3,
-            .filterhParam = 10,
-            .ksize = 5,
-            .BDC = 0,
-            .filter = ImageProcessor::Settings::BILATERAL,
-            .thresholdMethod = ImageProcessor::Settings::BINARY
-        },
-    };
+    // Process images and create masks using the settings from the configuration file
+    auto masks = ImageProcessor::createMasks(images, settings);
 
-    for (int i = 0; i < presets.size(); ++i) {
-        ImageProcessor::Settings& preset = presets[i];
-        // Update configuration to current preset
-        ImageProcessor::updateConfig(preset);
-
-        // Process images and create masks
-        auto masks = ImageProcessor::createMasks(images, preset);
-
-        // Save masks to output folder, creating a subdirectory for each preset
-        std::string presetFolder = outputFolder + "/preset_" + std::to_string(i + 1);
-        if (!fs::exists(presetFolder)) {
-            fs::create_directory(presetFolder);
-        }
-
-        for (int j = 0; j < masks.size(); j++) {
-            std::string filename = fs::path(filenames[j]).filename().string();
-            cv::Mat& mask = masks[j];
-            std::string outputFilename = presetFolder + "/" + (fs::path(filename).stem().string() + "_mask.png");
-            cv::imwrite(outputFilename, mask);
-        }
-
-        for (auto& mask : masks) {
-            mask.release();
-        }
+    // Create 'results' directory at the same level as 'pics'
+    fs::path resultsFolder = fs::path(inputPicsFolder).parent_path() / "results";
+    if (!fs::exists(resultsFolder)) {
+        fs::create_directory(resultsFolder);
     }
 
+    // Save masks to the 'results' folder
+    for (int i = 0; i < masks.size(); i++) {
+        std::string filename = fs::path(filenames[i]).filename().string();
+        cv::Mat& mask = masks[i];
+        std::string outputFilename = (resultsFolder / fs::path(filename).stem()).string() + "_mask.png";
+        cv::imwrite(outputFilename, mask);
+        // Release the mask since it is no longer needed
+        mask.release();
+    }
+
+    // Release images that are no longer needed
     for (auto& image : images) {
         image.release();
     }
 
-    std::cout << "Image Processing Application completed" << std::endl;
+    std::cout << "Image processing completed using config file: " << argv[1] << std::endl;
     return 0;
 }

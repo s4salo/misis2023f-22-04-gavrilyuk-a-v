@@ -1,0 +1,9 @@
+{
+  "BDC": 0,
+  "filter": "NLM",
+  "filterIterations": 2,
+  "filterhParam": 10,
+  "ksize": 5,
+  "threshold": 128,
+  "thresholdMethod": "MEAN_STD_DEV"
+}

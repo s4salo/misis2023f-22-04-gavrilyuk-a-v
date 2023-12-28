@@ -59,6 +59,8 @@ public:
     */
     static void setConfigFilePath(const std::string& path);
 
+    static void setConfigFileDirectory(const std::string& path);
+
     /**
     * @brief Проверяет есть ли конфигурационный файл или нет
     */
@@ -88,15 +90,11 @@ public:
     */
     static std::vector<cv::Mat> createMasks(std::vector<cv::Mat>& images, Settings settings);
 
-private:
-    //! Путь до конфигурационного файла
-    static fs::path CONFIG_FILE_PATH;
-
     /**
-    * @brief Преобразует строку в метод бинаризации
-    * @param method Тип метода бинаризации
-    * @return Строковое представление фильтра
-    */
+* @brief Преобразует строку в метод бинаризации
+* @param method Тип метода бинаризации
+* @return Строковое представление фильтра
+*/
     static std::string thresholdMethodToString(Settings::ThresholdMethod method);
 
     /**
@@ -119,6 +117,10 @@ private:
     * @return Тип фильтра
     */
     static Settings::Filter stringToFilter(const std::string& filter);
+
+private:
+    //! Путь до конфигурационного файла
+    static fs::path CONFIG_FILE_PATH;
 
     /**
     * @brief Сериализация настроек в JSON

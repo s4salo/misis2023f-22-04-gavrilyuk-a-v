@@ -5,6 +5,10 @@ void ImageProcessor::setConfigFilePath(const std::string& path) {
     CONFIG_FILE_PATH = fs::path(path) / "settings.json";
 }
 
+void ImageProcessor::setConfigFileDirectory(const std::string& path) {
+    CONFIG_FILE_PATH = fs::path(path);
+}
+
 std::string ImageProcessor::filterToString(Settings::Filter filter) {
     switch (filter) {
     case Settings::NLM: return "NLM";

@@ -1,0 +1,9 @@
+{
+  "BDC": 0,
+  "filter": "BILATERAL",
+  "filterIterations": 2,
+  "filterhParam": 10,
+  "ksize": 5,
+  "threshold": 128,
+  "thresholdMethod": "KAPUR"
+}
