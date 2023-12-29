@@ -99,7 +99,7 @@ sql::ResultSet *result = prepStmt->getResultSet();
 
 ## Источники
 [1] https://cloud.yandex.ru/ru/docs/glossary/relational-databases<br/>
-[2] https://dev.mysql.com/doc/connector-cpp/1.1/en/
+[2] https://dev.mysql.com/doc/connector-cpp/1.1/en/<br/>
 [3] https://ru.wikipedia.org/wiki/SQL#Элементы
 
 
