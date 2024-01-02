@@ -20,3 +20,9 @@ install(DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO}/
 		FILES_MATCHING PATTERN "*.dll*"
 )
 
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/prj.cw/testpics/ 
+DESTINATION pics)
+
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/prj.cw/testconfigs/ 
+DESTINATION configs)
+

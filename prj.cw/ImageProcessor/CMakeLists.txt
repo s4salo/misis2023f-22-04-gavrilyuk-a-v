@@ -11,8 +11,3 @@ install(TARGETS sabin
   RUNTIME DESTINATION bin
 )
 
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/prj.cw/testpics/ 
-DESTINATION pics)
-
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/prj.cw/testconfigs/ 
-DESTINATION configs)
