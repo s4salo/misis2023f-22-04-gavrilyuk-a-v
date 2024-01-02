@@ -16,12 +16,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 find_package(OpenCV REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 
-option(BUILD_ONLY_LIBRARY "Build only ImageProcessor" on)
+option(BUILD_ONLY_LIBRARY "Build only ImageProcessor" off)
 if(BUILD_ONLY_LIBRARY)
-	add_subdirectory("prj.cw/ImageProcessor") #сборка только библиотеки
+	add_subdirectory("prj.cw/ImageProcessor") #Г±ГЎГ®Г°ГЄГ  ГІГ®Г«ГјГЄГ® ГЎГЁГЎГ«ГЁГ®ГІГҐГЄГЁ
 else()
 	add_subdirectory("prj.codeforces")
-	add_subdirectory ("prj.cw") #сборка вместе с тестовыми приложениямиB
+	add_subdirectory ("prj.cw") #Г±ГЎГ®Г°ГЄГ  ГўГ¬ГҐГ±ГІГҐ Г± ГІГҐГ±ГІГ®ГўГ»Г¬ГЁ ГЇГ°ГЁГ«Г®Г¦ГҐГ­ГЁГїГ¬ГЁB
 endif()
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
