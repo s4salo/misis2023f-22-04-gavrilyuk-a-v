@@ -10,7 +10,8 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    std::string inputPicsFolder = "../pics";
+    std::string inputPicsFolder = "../pics/images";
+    std::string groundTruthFolder = "../pics/ground";
     ImageProcessor::setConfigFileDirectory(argv[1]);
 
     if (!ImageProcessor::configExists()) {
@@ -36,6 +37,20 @@ int main(int argc, char* argv[]) {
         cv::Mat& mask = masks[i];
         std::string outputFilename = (resultsFolder / fs::path(filename).stem()).string() + "_mask.png";
         cv::imwrite(outputFilename, mask);
+
+        // Загрузка эталонной маски
+        std::string groundTruthFilename = groundTruthFolder + "/" + filename;
+        cv::Mat groundTruth = cv::imread(groundTruthFilename, cv::IMREAD_GRAYSCALE);
+        if (!groundTruth.empty()) {
+            ImageProcessor::SegmentationQuality quality = ImageProcessor::evaluateSegmentation(groundTruth, mask);
+            std::cout << "Evaluation for " << filename << ":" << std::endl;
+            std::cout << " Dice Coefficient: " << quality.diceCoefficient << std::endl;
+            std::cout << " Accuracy: " << quality.accuracy << std::endl;
+        }
+        else {
+            std::cerr << "Error: Ground truth file not found or invalid for " << filename << std::endl;
+        }
+
         mask.release();
     }
 

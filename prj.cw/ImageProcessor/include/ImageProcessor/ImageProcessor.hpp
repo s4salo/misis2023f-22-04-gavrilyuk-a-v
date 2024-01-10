@@ -54,6 +54,22 @@ public:
     };
 
     /**
+    * @brief Структура для хранения результатов оценки качества сегментации
+    */
+    struct SegmentationQuality {
+        double diceCoefficient = 0.0;  // Коэффициент Dice
+        double accuracy = 0.0;         // Точность
+    };
+
+    /**
+    * @brief Оценивает качество сегментации, используя различные метрики
+    * @param groundTruth Изображение с эталонной бинарной маской
+    * @param segmentationResult Изображение с полученной бинарной маской
+    * @return Структура с оценками качества сегментации
+    */
+    static SegmentationQuality evaluateSegmentation(const cv::Mat& groundTruth, const cv::Mat& segmentationResult);
+
+    /**
     * @brief Устанавливает путь до конфигурационного файла
     * @param path Путь до папки, в которой будет храниться конфигурационный файл
     */

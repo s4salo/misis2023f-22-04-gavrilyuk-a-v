@@ -37,9 +37,10 @@ std::string ImageProcessor::thresholdMethodToString(Settings::ThresholdMethod me
 
 ImageProcessor::Settings::ThresholdMethod ImageProcessor::stringToThresholdMethod(const std::string& thresholdMethod) {
     if (thresholdMethod == "BINARY") return ImageProcessor::Settings::BINARY;
-    if (thresholdMethod == "OTSU") return ImageProcessor::Settings::OTSU;
-    if (thresholdMethod == "MEAN_STD_DEV") return ImageProcessor::Settings::MEAN_STD_DEV;
-    if (thresholdMethod == "KAPUR") return ImageProcessor::Settings::KAPUR;
+    else if (thresholdMethod == "OTSU") return ImageProcessor::Settings::OTSU;
+    else if (thresholdMethod == "MEAN_STD_DEV") return ImageProcessor::Settings::MEAN_STD_DEV;
+    else if (thresholdMethod == "KAPUR") return ImageProcessor::Settings::KAPUR;
+    else return ImageProcessor::Settings::BINARY;
 }
 
 
@@ -273,4 +274,29 @@ std::vector<cv::Mat> ImageProcessor::createMasks(std::vector<cv::Mat>& images, I
         masks.push_back(mask);
     }
     return masks;
+}
+
+ImageProcessor::SegmentationQuality ImageProcessor::evaluateSegmentation(const cv::Mat& groundTruth, const cv::Mat& segmentationResult) {
+    CV_Assert(groundTruth.type() == CV_8UC1 && segmentationResult.type() == CV_8UC1);
+    CV_Assert(groundTruth.size() == segmentationResult.size());
+
+    // Объединяем области, определенные обоими масками (пересечение)
+    cv::Mat intersection;
+    cv::bitwise_and(groundTruth, segmentationResult, intersection);
+    // Объединяем области, определенные как минимум одной маской (объединение)
+    cv::Mat unionMask;
+    cv::bitwise_or(groundTruth, segmentationResult, unionMask);
+
+    double areaIntersection = cv::countNonZero(intersection);
+    double areaGroundTruth = cv::countNonZero(groundTruth);
+    double areaSegmentationResult = cv::countNonZero(segmentationResult);
+    double trueNegatives = cv::countNonZero((groundTruth + segmentationResult) == 0);
+
+    SegmentationQuality quality;
+    // Вычисление коэффициента Dice
+    quality.diceCoefficient = (2.0 * areaIntersection) / (areaGroundTruth + areaSegmentationResult);
+    // Вычисление точности
+    quality.accuracy = (areaIntersection + trueNegatives) / (groundTruth.total());
+
+    return quality;
 }
